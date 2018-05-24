@@ -38,7 +38,7 @@ def main(uid):
     user = obj(user_defaults)
     print("Name vk:", user.first_name, user.last_name)
     print("Link:", 'vk.com/id' + str(user.id))
-    print("Hidden user:", "да" if user.hidden else "нет")
+    print("Hidden user:", "yes" if user.hidden else "no")
     friends = obj(vkr('friends.get', user_id=user.id, order='hints', count=12))
     print("Friends:", friends.count)
     print("Top 12 friends:")
