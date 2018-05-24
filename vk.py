@@ -36,12 +36,12 @@ def main(uid):
     user_defaults = {'hidden':1}
     user_defaults.update(vkr('users.get', user_ids=uid, fields='online')[0])
     user = obj(user_defaults)
-    print("Имя Вконтакте:", user.first_name, user.last_name)
-    print("Адрес:", 'vk.com/id' + str(user.id))
-    print("Скрытый пользователь:", "да" if user.hidden else "нет")
+    print("Name vk:", user.first_name, user.last_name)
+    print("Link:", 'vk.com/id' + str(user.id))
+    print("Hidden user:", "да" if user.hidden else "нет")
     friends = obj(vkr('friends.get', user_id=user.id, order='hints', count=12))
-    print("Друзей:", friends.count)
-    print("Top 12 друзей:")
+    print("Friends:", friends.count)
+    print("Top 12 friends:")
     for i, friend_id in enumerate(friends.items):
         friend = obj(vkr('users.get', user_ids=friend_id)[0])
         print('{}) {} {}'.format(i+1, friend.first_name, friend.last_name))
