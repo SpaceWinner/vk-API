@@ -5,7 +5,7 @@ import requests, json, sys, time
 VK_API_URL = 'https://api.vk.com/'
 
 # https://oauth.vk.com/authorize?client_id=5494844&display=page&redirect_uri=http://localhost/copy-your-access-token/but-dont-commit-it&response_type=token&v=5.76&state=123456
-ACCESS_TOKEN = ''
+ACCESS_TOKEN = '664597f92746da87acfda0e4c9943006dd00a175f19769dccd0ba56b81d020853c0d8ad36d48ad5cfc031'
 
 
 def obj(dct):
@@ -33,12 +33,16 @@ def vkr(method, **params):
 
 
 def main(uid):
-    user_defaults = {'hidden':1}
-    user_defaults.update(vkr('users.get', user_ids=uid, fields='online')[0])
+    user_defaults = {'has_photo': 1}
+    try:
+        user_defaults.update(vkr('users.get', user_ids=uid, fields='has_photo')[0])
+    except ValueError:
+        print("No such user")
+        sys.exit(0)
     user = obj(user_defaults)
     print("Name vk:", user.first_name, user.last_name)
     print("Link:", 'vk.com/id' + str(user.id))
-    print("Hidden user:", "yes" if user.hidden else "no")
+    print("Has photo:", "yes" if user.has_photo else "no")
     friends = obj(vkr('friends.get', user_id=user.id, order='hints', count=12))
     print("Friends:", friends.count)
     print("Top 12 friends:")
